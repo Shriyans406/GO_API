@@ -1,17 +1,41 @@
 package api
 
-type CoinBalanceParams struct{
+import (
+	"encoding/json"
+	"net/http"
+)
+
+type CoinBalanceParams struct {
 	Username string
 }
 
-type CoinBalanceResponse struct{
+type CoinBalanceResponse struct {
 	Code int
 
 	Balance int64
 }
 
-type Error struct{
+type Error struct {
 	Code int
 
 	Message string
 }
+
+func writeError(w http.ResponseWriter, code int, message string) {
+	resp := Error{
+		Code:    code,
+		Message: message,
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	json.NewEncoder(w).Encode(resp)
+}
+
+var(
+	RequestErrorHandler=func(w http.ResponseWriter, r *http.Request, err error){
+		writeError(w, err.Error(), http.StatusBadRequest)
+	}
+	InternalErrorHandler=func(w http.ResponseWriter){
+		writeError(w, http.StatusInternalServerError, "Internal Server Error")
+	}
+)
