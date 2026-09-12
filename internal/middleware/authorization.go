@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"Go_Project/api"
 	"errors"
 	"net/http"
 )
@@ -15,8 +16,20 @@ func AUthorization(next http.Handler) http.Handler{
 		var err error
 
 		if username=="" || token==""{
-			
+			log.Error(UnauthorizedError)
+			api.RequestErrorHandler(w, UnauthorizedError)
+			return
 		}
+
+		var database *tools.DatabaseInterface
+		database, err=tools.NewDatabase()
+
+		if(loginDetails==nil || (token !=(*loginDetails).AuthToken)){
+			log.error(UnauthorizedError)
+			api.RequestErrorHandler(w, UnauthorizedError)
+			return
+		}
+		next.ServeHTTP(w, r)
 
 	})
 }
