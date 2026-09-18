@@ -35,3 +35,29 @@ var mockCoinDetails=map[string]CoinDetails{
 		Username: "marie",
 	},
 }
+
+func(d *mockDB) GetUserLoginDetails(username string) *loginDetails {
+	time.Sleep(time.Second*1)
+
+	var clientData=LoginDetails{}
+	if !ok{
+		return nil
+	}
+
+	return &clientData
+}
+
+func(d *mockDB) GetUserCoins(username string) *CoinDetails {
+	time.Sleep(time.Second*1)
+
+	var clientData=CoinDetails{}
+	if !ok{
+		return nil
+	}
+	return &clientData
+}
+
+func(d *mockDB) SetupDatabase() error{
+	time.Sleep(time.Second*1)
+	return nil
+}

@@ -12,6 +12,7 @@ type CoinDetails struct{
 	Username string
 }
 
+
 type DatabaseInterface struct{
 	Get UserLoginDetails(username string) *LoginDetails
 	GetUserCoins(username string) *CoinDetails
